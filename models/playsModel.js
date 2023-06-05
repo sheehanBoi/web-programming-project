@@ -70,6 +70,28 @@ class Play {
         }
     }
 
+    static async castSpell(game){
+        try{
+            const query = "SELECT spl_damage FROM spell WHERE spl_id = ?";
+            const [rows] = await pool.query(query, [spellId]);
+
+            if(rows.length === 0){
+                res.status(404).send({ msg: "Spell not found"});
+                return;
+            }
+            const spellDamage = rows[0].spl_damage;
+            const playerId = req.game.player.id;
+            const hpUpdateQuery = "UPDATE user_game SET hp = hp - ? WHERE ug_id = ?";
+
+            await pool.query(hpUpdateQuery, [spellDamage, playerId]);
+
+            res.status(200).send({ msg: "Spell casted successfully"});
+        } catch(err){
+            console.log(err);
+            return{ status: 500, result: err};
+        }
+        
+    }
     // Makes all the calculation needed to end and score the game
     static async endGame(game) {
         try {

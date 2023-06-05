@@ -17,5 +17,11 @@ insert into scoreboard_state (sbs_state) values ('Tied');
 insert into scoreboard_state (sbs_state) values ('Lost');
 insert into scoreboard_state (sbs_state) values ('Won');
 
+# Populating the "spell" table
+INSERT INTO spell (spl_name, spl_damage) VALUES ('Fireball', 10);
+INSERT INTO spell (spl_name, spl_damage) VALUES ('Frost Nova', 10);
 
+# Populating the "player_spell" table
+INSERT INTO player_spell (ps_player_id, ps_spell_id) VALUES (1, 1); --player 1 has fireball
+INSERT INTO player_spell (ps_player_id, ps_spell_id) VALUES (2, 2); --player 2 has frost nova
 

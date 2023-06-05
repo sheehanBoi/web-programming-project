@@ -26,6 +26,7 @@ create table user_game (
     ug_user_id int not null,
     ug_game_id int not null,
     ug_state_id int not null,
+    hp INT DEFAULT 100,
     primary key (ug_id));
 
 create table user_game_state (
@@ -45,6 +46,22 @@ create table scoreboard (
     sbs_id int not null auto_increment,
     sbs_state varchar(60) not null,
     primary key (sbs_id));
+
+
+CREATE TABLE spell (
+    spl_id INT NOT NULL AUTO_INCREMENT,
+    spl_name VARCHAR(60) NOT NULL,
+    spl_description VARCHAR(200),
+    spl_damage INT NOT NULL,
+    PRIMARY KEY (spl_id));
+
+CREATE TABLE player_spell (
+    ps_id INT NOT NULL AUTO_INCREMENT,
+    ps_player_id INT NOT NULL,
+    ps_spell_id INT NOT NULL,
+    PRIMARY KEY (ps_id),
+    FOREIGN KEY (ps_player_id) REFERENCES user(usr_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (ps_spell_id) REFERENCES spell(spl_id) ON DELETE NO ACTION ON UPDATE NO ACTION);
 
 
 # Foreign Keys

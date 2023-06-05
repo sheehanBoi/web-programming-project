@@ -24,4 +24,23 @@ router.patch('/endturn', auth.verifyAuth, async function (req, res, next) {
     }
 });
 
+// Casting a spell
+router.post('/castspell', auth.verifyAuth, async function (req, res, next){
+    try{
+        console.log("cast a spell");
+        if(!req.game){
+            res.status(400).send({ msg: "You're not currently in a game, please create or join a game."});
+        } else if(req.game.player.state.name !== "Playing"){
+            res.status(400).send({ msg: "Unable to cast spell since it's not your turn."});
+        } else{
+            const spellId = req.body.spellId;
+            const result = await Play.castSpell(req.game, spellId);
+            res.status(result.status).send(result.result);            
+        }
+    } catch(err){
+        console.log(err);
+        res.status(500).send(err);
+    }
+});
+
 module.exports = router;
